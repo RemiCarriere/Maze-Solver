@@ -305,14 +305,18 @@
   });
 
   // Add mouse listeners to draw
-  $(document).on('mousedown mousemove mouseup dragover dragleave', '.grid-item', function (e) {
+  $(document).on('mousedown mousemove mouseup dragover dragleave touchstart touchmove touchend', '.grid-item', function (e) {
     if (e.which === 1 && !isRunning) {
-      if (e.type === "mousedown" || e.type === "dragover") {
+      if (e.type === "mousedown" || e.type === "dragover" || e.type === "touchstart") {
         isDrawing = true;
         drawWall(e.target.id);
       } else if (e.type === "mousemove" && isDrawing) {
         drawWall(e.target.id);
-      } else if (e.type === "mouseup" || e.type === "dragleave") {
+      }
+      else if (e.type === "touchmove" && isDrawing) {
+        drawWall(e[0].target.id);
+      }
+      else if (e.type === "mouseup" || e.type === "dragleave" || e.type === "touchend") {
         isDrawing = false;
       }
     }
@@ -333,7 +337,9 @@
         });
     }
   });
-
+  // $(document).body.addEventListener('touchmove', function(e){ e.preventDefault(); });
+  // $(document).body.addEventListener('touchstart', function(e){ e.preventDefault(); });
+  // $(document).body.addEventListener('touchend', function(e){ e.preventDefault(); });
   // If the document is clicked somewhere
   $(document).bind("mousedown", function (e) {
 
