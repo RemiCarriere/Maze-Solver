@@ -1,6 +1,8 @@
-# maze-solver
+# maze-solver [![Build Status](https://travis-ci.com/RemiCarriere/Maze-Solver.svg?token=KAZKVRpC6RVs5t8AvzT6&branch=master)](https://travis-ci.com/RemiCarriere/Maze-Solver)
 
-> A Vue.js project
+A visualization tool for graph traversal built using Vue.js
+<br>
+Visit the deployed version [here](https://maze-solver6000.herokuapp.com/)
 
 ## Build Setup
 
