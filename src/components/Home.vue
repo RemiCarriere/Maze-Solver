@@ -10,42 +10,71 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.0/css/all.css"
           integrity="sha384-Mmxa0mLqhmOeaE8vgOSbKacftZcsNYDjQzuCOm6D02luYSzBG8vpaOykv9lFQ51Y" crossorigin="anonymous">
+    <!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>-->
+    <!--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
+
+    <!--    <script src="vue.js"></script>-->
   </head>
 
   <body>
-  <div class="sticky-top">
-    <nav class="navbar sticky-top navbar-expand-lg  navbar-dark bg-dark">
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <b-navbar-nav>
-        <b-nav-item @click="solve()">Start</b-nav-item>
-
-        <b-nav-item-dropdown text="Size" id="sizeOptions">
-          <b-dropdown-item class="nav-link active" @click="setSize(1)">30x50</b-dropdown-item>
-          <b-dropdown-item class="nav-link" @click="setSize(2)">40x66</b-dropdown-item>
-          <b-dropdown-item class="nav-link" @click="setSize(3)">50x83</b-dropdown-item>
-          <b-dropdown-item class="nav-link" @click="setSize(4)">60x100</b-dropdown-item>
-        </b-nav-item-dropdown>
-
-        <b-nav-item-dropdown @click="clearGrid()" text="Algorithm">
-          <b-dropdown-item class="nav-link active">Breadthfirst</b-dropdown-item>
-          <b-dropdown-item class="nav-link disabled">Depthfirst</b-dropdown-item>
-        </b-nav-item-dropdown>
-        <b-nav-item-dropdown text="Reset Grid">
-          <b-dropdown-item @click="clearGrid(false)">Reset (keep walls)</b-dropdown-item>
-          <b-dropdown-item @click="clearGrid(true)">Reset (clear walls)</b-dropdown-item>
-        </b-nav-item-dropdown>
-
-      </b-navbar-nav>
-    </nav>
-  </div>
 
   <!-- Main container-->
   <div class="container-fluid"
        style="padding-right:0; padding-left:0; height: 100%; display: flex; flex-direction: column;">
+    <div class="sticky-top">
+      <nav class="navbar sticky-top navbar-expand-sm navbar-dark bg-dark">
+        <!--        <a class="navbar-brand" href="#"></a>-->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+
+            <li class="nav-item active">
+              <button class="btn btn-outline-success navbar" type="button" @click="solve()">Start</button>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                 aria-haspopup="true" aria-expanded="false">
+                Size
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="sizeOptions">
+                <b-dropdown-item class="nav-link active" @click="setSize(1)">30x50</b-dropdown-item>
+                <b-dropdown-item class="nav-link" @click="setSize(2)">40x66</b-dropdown-item>
+                <b-dropdown-item class="nav-link" @click="setSize(3)">50x83</b-dropdown-item>
+                <b-dropdown-item class="nav-link" @click="setSize(4)">60x100</b-dropdown-item>
+              </div>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                 aria-haspopup="true" aria-expanded="false">
+                Alogorithm
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <b-dropdown-item class="nav-link active">Breadthfirst</b-dropdown-item>
+                <b-dropdown-item class="nav-link disabled">Depthfirst</b-dropdown-item>
+              </div>
+            </li>
+
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                 aria-haspopup="true" aria-expanded="false">
+                Reset Grid
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <b-dropdown-item @click="clearGrid(false)">Reset (keep walls)</b-dropdown-item>
+                <b-dropdown-item @click="clearGrid(true)">Reset (clear walls)</b-dropdown-item>
+              </div>
+            </li>
+
+          </ul>
+        </div>
+      </nav>
+    </div>
     <!-- Modal -->
     <transition name="modal" mode="out-in">
       <div v-if="showModalInstructions" key="warning">
@@ -112,6 +141,7 @@
     <div id="grid-container"></div>
     <div id="inner_remaining"></div>
   </div>
+
   <!--  <div class="inner_remaining" style="flex: 1 1 auto; background-color: black"></div>-->
   </body>
   <footer>
@@ -327,6 +357,18 @@
 
 
     },
+    mounted() {
+      let jqueryScript = document.createElement('script')
+      jqueryScript.setAttribute('src', 'https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+      document.head.appendChild(jqueryScript)
+
+      let bootStrapScript = document.createElement('script')
+      bootStrapScript.setAttribute('src', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js')
+      document.head.appendChild(bootStrapScript)
+
+
+    },
+
     methods: {
       solve: async function () {
         let pathAndVisitOrder = bfs();
@@ -398,13 +440,14 @@
         var sizeContainer = document.getElementById("sizeOptions");
         // Get all buttons with class="btn" inside the container
         var sizeOptions = sizeContainer.getElementsByClassName("nav-link");
-        var selected = sizeOptions[size];
+        var selected = sizeOptions[size - 1];
         // Loop through the buttons and add the active class to the current/clicked button
         for (var i = 0; i < sizeOptions.length; i++) {
-          var current = document.getElementsByClassName("active");
-          current[0].className = current[0].className.replace(" active", "");
-          selected.className += " active";
+          var current = sizeOptions[i];
+          current.className = current.className.replace(" active", "");
+
         }
+        selected.className += " active";
         const container = document.getElementById("grid-container");
         container.innerHTML = '';
         switch (size) {
