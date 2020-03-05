@@ -310,11 +310,8 @@
       if (e.type === "mousedown" || e.type === "dragover" || e.type === "touchstart") {
         isDrawing = true;
         drawWall(e.target.id);
-      } else if (e.type === "mousemove" && isDrawing) {
+      } else if ((e.type === "mousemove" || e.type === "touchmove") && isDrawing) {
         drawWall(e.target.id);
-      }
-      else if (e.type === "touchmove" && isDrawing) {
-        drawWall(e[0].target.id);
       }
       else if (e.type === "mouseup" || e.type === "dragleave" || e.type === "touchend") {
         isDrawing = false;
