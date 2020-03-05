@@ -1,14 +1,10 @@
 language: node_js
 node_js:
-  - "6"
-
+- '6'
 before_install:
-  - cd Frontend
-  - npm install
-
+- npm install
 script:
-  - npm run build
-
+- npm run build
 deploy:
   provider: heroku
   api_key:
