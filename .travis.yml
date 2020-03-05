@@ -8,7 +8,7 @@ script:
 deploy:
   provider: heroku
   api_key:
-    secure:
+    secure: P6XZlWeQowc8WcjKrGJFcCHtGaVQrXYtB0Xrg5Y7mVXJuANSvhqHatNtkdA4tbTt1QkpDEcOxWDOHumnVTtPbd94QM4wkmAWCsioenOgSq118NOvpmwdAFrftqfo2p/vnGJX7zP0D/jNnrQRdGlhFGC/l6XTo1GB4Xkd9oTs/oenlFZyVLbg0CRaS+oNrjOa2KGpc2PxiDqvozae/odU9aZ7fZoCw9GzEnxC6IWZF/YSiM/IF7R2JdRBjGSGpz0LZIiqbr2vUhWa2Mu98sStVNrAIsJAHlREUlEc/X1RvLhVlg/ay0E4WSSks8Q5MX1r9e7N1p26Ea7lf1zZuWAgoh6/OeRu+ND1RdKq+MIcg6UahKybIhrbg6GDpZIJxlqZ59+jAgUN7+olim3Jam9w7uu31avvjnBvBitaYTmhyMuAObyyTAyloRCU8XKTOg2VOJh8WAGezLZTNC6O/1WOVL6JjzuGYe2rapRG4JiNuHn3j2KqE2m3nsSal5qSY2IVlmBay/JX1zLQcLoPHiNeXTC4zCKifQ3ftMYNuc1hGRpxJYtGnAf5RFCoX4++PnNvyTLQFnJp3DUHGNuiKl7DZWkkPsc8px8Thv6ooRIQgzKWe9LANwnCBFZXZI6YeShH3TdAwEp8FOr6qQ6wgfqp63xvsVFPUUOu3d1OFdPlqQQ=
   app: maze-solver6000
   on:
     repo: RemiCarriere/Maze-Solver
