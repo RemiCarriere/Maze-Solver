@@ -13,21 +13,25 @@
   </head>
 
   <body>
-  <div>
-    <b-navbar type="dark" variant="dark">
+  <div class="sticky-top">
+    <nav class="navbar sticky-top navbar-expand-lg  navbar-dark bg-dark">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
       <b-navbar-nav>
         <b-nav-item @click="solve()">Start</b-nav-item>
 
-        <b-nav-item-dropdown text="Size">
-          <b-dropdown-item @click="setSize(1)">30x50</b-dropdown-item>
-          <b-dropdown-item @click="setSize(2)">40x66</b-dropdown-item>
-          <b-dropdown-item @click="setSize(3)">50x83</b-dropdown-item>
-          <b-dropdown-item @click="setSize(4)">60x100</b-dropdown-item>
+        <b-nav-item-dropdown text="Size" id="sizeOptions">
+          <b-dropdown-item class="nav-link active" @click="setSize(1)">30x50</b-dropdown-item>
+          <b-dropdown-item class="nav-link" @click="setSize(2)">40x66</b-dropdown-item>
+          <b-dropdown-item class="nav-link" @click="setSize(3)">50x83</b-dropdown-item>
+          <b-dropdown-item class="nav-link" @click="setSize(4)">60x100</b-dropdown-item>
         </b-nav-item-dropdown>
 
         <b-nav-item-dropdown @click="clearGrid()" text="Algorithm">
-          <b-dropdown-item @click="clearGrid()">Breadthfirst</b-dropdown-item>
-          <b-dropdown-item>Depthfirst</b-dropdown-item>
+          <b-dropdown-item class="nav-link active">Breadthfirst</b-dropdown-item>
+          <b-dropdown-item class="nav-link disabled">Depthfirst</b-dropdown-item>
         </b-nav-item-dropdown>
         <b-nav-item-dropdown text="Reset Grid">
           <b-dropdown-item @click="clearGrid(false)">Reset (keep walls)</b-dropdown-item>
@@ -35,14 +39,12 @@
         </b-nav-item-dropdown>
 
       </b-navbar-nav>
-    </b-navbar>
-
+    </nav>
   </div>
 
   <!-- Main container-->
   <div class="container-fluid"
-       style="padding-right:0; padding-left:0; height: 100%; display: flex; flex-direction: column;
-">
+       style="padding-right:0; padding-left:0; height: 100%; display: flex; flex-direction: column;">
 
     <!-- Modal -->
     <transition name="modal" mode="out-in">
@@ -133,7 +135,7 @@
     const container = document.getElementById("grid-container");
     container.style.setProperty('--grid-rows', rows);
     container.style.setProperty('--grid-cols', cols);
-    for (var i = 0; i < (rows * cols); i++) {
+    for (let i = 0; i < (rows * cols); i++) {
       let cell = document.createElement("div");
       container.appendChild(cell).className = "grid-item";
       cell.id = "cell-" + i;
@@ -149,12 +151,15 @@
   }
 
   function clearGrid(eraseWalls) {
-    for (var i = 0; i < (rows * cols); i++) {
+    for (let i = 0; i < (rows * cols); i++) {
       let cell = document.getElementById("cell-" + i);
-      if ((cell.style.backgroundColor !== "black" || eraseWalls) && cell.style.backgroundColor !== "green" && cell.style.backgroundColor !== "red") {
+      if (cell.style.animation || cell.style.animation.toString().length !== 0) {
         cell.style.animation = 'none';
         cell.offsetHeight; /* trigger reflow */
         cell.style.animation = null;
+        cell.style.backgroundColor = "white";
+      }
+      if (eraseWalls && cell.style.backgroundColor !== "green" && cell.style.backgroundColor !== "red") {
         cell.style.backgroundColor = "white";
       }
     }
@@ -163,9 +168,11 @@
   function drawWall(id) {
     let cell = document.getElementById(id);
     if (cell.style.backgroundColor !== "green" && cell.style.backgroundColor !== "red") {
-      cell.style.animation = 'none';
-      cell.offsetHeight; /* trigger reflow */
-      cell.style.animation = null;
+      if (cell.style.animation || cell.style.animation.toString().length !== 0) {
+        cell.style.animation = 'none';
+        cell.offsetHeight; /* trigger reflow */
+        cell.style.animation = null;
+      }
       cell.style.backgroundColor = "black";
     }
   }
@@ -176,8 +183,7 @@
 
   function getNodeIndex(row, col) {
     if (row >= 0 && col >= 0 && row < rows && col < cols) {
-      var index = (row * cols) + col;
-      return index;
+      return (row * cols) + col;
     }
     return null;
   }
@@ -186,7 +192,7 @@
     let index = getNodeIndex(position[0], position[1]);
     if (position[0] < 0 || position[0] >= rows || position[1] < 0 || position[1] >= cols) {
       return null;
-    } else if (document.getElementById("cell-" + index).style.backgroundColor == "black") {
+    } else if (document.getElementById("cell-" + index).style.backgroundColor === "black") {
       return null;
     } else {
       return position;
@@ -194,14 +200,14 @@
   }
 
   function createGridGraph() {
-    var gridGraph = [];
-    for (var i = 0; i < rows; i++) {
-      for (var j = 0; j < cols; j++) {
-        var right = getAdjNode([i, j + 1]);
-        var left = getAdjNode([i, j - 1]);
-        var up = getAdjNode([i - 1, j]);
-        var down = getAdjNode([i + 1, j]);
-        var node = {value: [i, j], left: left, right: right, up: up, down: down};
+    let gridGraph = [];
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < cols; j++) {
+        let right = getAdjNode([i, j + 1]);
+        let left = getAdjNode([i, j - 1]);
+        let up = getAdjNode([i - 1, j]);
+        let down = getAdjNode([i + 1, j]);
+        let node = {value: [i, j], left: left, right: right, up: up, down: down};
         gridGraph.push(node);
       }
     }
@@ -270,13 +276,13 @@
 
   // Add mouse listeners to draw
   $(document).on('mousedown mousemove mouseup dragover dragleave', '.grid-item', function (e) {
-    if (e.which == 1 && !isRunning) {
-      if (e.type == "mousedown" || e.type == "dragover") {
+    if (e.which === 1 && !isRunning) {
+      if (e.type === "mousedown" || e.type === "dragover") {
         isDrawing = true;
         drawWall(e.target.id);
-      } else if (e.type == "mousemove" && isDrawing) {
+      } else if (e.type === "mousemove" && isDrawing) {
         drawWall(e.target.id);
-      } else if (e.type == "mouseup" || e.type == "dragleave") {
+      } else if (e.type === "mouseup" || e.type === "dragleave") {
         isDrawing = false;
       }
     }
@@ -327,7 +333,7 @@
         if (!pathAndVisitOrder) {
           this.showModalNoPath = true;
         } else if (!isRunning) {
-          clearGrid();
+          clearGrid(false);
           isRunning = true;
           let visitedOrder = pathAndVisitOrder[1];
           let path = pathAndVisitOrder[0];
@@ -336,9 +342,6 @@
             let nodeIndex = getNodeIndex(node.value[0], node.value[1]);
             let cell = document.getElementById("cell-" + nodeIndex);
             if (cell.style.backgroundColor !== "green" && cell.style.backgroundColor !== "red") {
-              cell.style.animation = 'none';
-              cell.offsetHeight; /* trigger reflow */
-              cell.style.animation = null;
               await sleep(5);
               cell.style.animation = "mymove 5s";
               cell.style.animationFillMode = "both";
@@ -349,9 +352,6 @@
             let nodeIndex = getNodeIndex(node.value[0], node.value[1]);
             let cell = document.getElementById("cell-" + nodeIndex);
             if (cell.style.backgroundColor !== "green" && cell.style.backgroundColor !== "red") {
-              cell.style.animation = 'none';
-              cell.offsetHeight; /* trigger reflow */
-              cell.style.animation = null;
               await sleep(5);
               cell.style.animation = "mymove-1 4s";
               cell.style.animationFillMode = "both";
@@ -392,6 +392,18 @@
       setSize: function (size) {
         if (isRunning) {
           return;
+        }
+
+        // Get the container element
+        var sizeContainer = document.getElementById("sizeOptions");
+        // Get all buttons with class="btn" inside the container
+        var sizeOptions = sizeContainer.getElementsByClassName("nav-link");
+        var selected = sizeOptions[size];
+        // Loop through the buttons and add the active class to the current/clicked button
+        for (var i = 0; i < sizeOptions.length; i++) {
+          var current = document.getElementsByClassName("active");
+          current[0].className = current[0].className.replace(" active", "");
+          selected.className += " active";
         }
         const container = document.getElementById("grid-container");
         container.innerHTML = '';
@@ -474,7 +486,9 @@
     border-right: 1px solid black;
     border-bottom: 1px solid black;
     text-align: center;
+    background-color: white;
   }
+
 
   .grid-item:after {
     content: "";
@@ -487,7 +501,7 @@
   }
 
   .btn-outline-dark:hover {
-    color: white !important;;
+    color: white !important;
     cursor: pointer;
   }
 
@@ -519,6 +533,7 @@
     height: 100%;
   }
 
+  /*transition, modal, modal-mask, modal wrapper, modal container, (header, bodt, footer)*/
   .modal-mask {
     position: fixed;
     z-index: 9998;
@@ -529,13 +544,16 @@
     background-color: rgba(0, 0, 0, .5);
     display: table;
     transition: opacity .3s ease;
+    overflow-y: scroll;
+    vertical-align: top;
   }
 
   .modal-wrapper {
-    display: inline;
+    position: relative;
+    display: table-cell;
     margin-top: 1.75cm;
     margin-bottom: 1.75cm;
-    vertical-align: middle;
+    vertical-align: top;
   }
 
   .modal-container {
@@ -550,6 +568,8 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
     transition: all .3s ease;
     font-family: Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
   }
 
   .modal-header {
@@ -558,12 +578,12 @@
   }
 
   .modal-body {
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
+    flex: 1 1 auto;
     margin: 0;
   }
 
-  .modal-body ol {
-    list-style-type: lower-alpha;
-  }
 
   .modal-default-button {
     float: right;
