@@ -310,8 +310,13 @@
       if (e.type === "mousedown" || e.type === "dragover" || e.type === "touchstart") {
         isDrawing = true;
         drawWall(e.target.id);
-      } else if ((e.type === "mousemove" || e.type === "touchmove") && isDrawing) {
+      } else if (e.type === "mousemove" && isDrawing) {
         drawWall(e.target.id);
+      }
+      else if (e.type === "touchmove") {
+        var target = document.elementFromPoint(e.originalEvent.changedTouches[0].clientX, e.originalEvent.changedTouches[0].clientY);
+        var id = target.id;
+        drawWall(id);
       }
       else if (e.type === "mouseup" || e.type === "dragleave" || e.type === "touchend") {
         isDrawing = false;
@@ -334,9 +339,9 @@
         });
     }
   });
-  // $(document).body.addEventListener('touchmove', function(e){ e.preventDefault(); });
-  // $(document).body.addEventListener('touchstart', function(e){ e.preventDefault(); });
-  // $(document).body.addEventListener('touchend', function(e){ e.preventDefault(); });
+  (document).body.addEventListener('touchmove', function(e){ e.preventDefault(); });
+  (document).body.addEventListener('touchstart', function(e){ e.preventDefault(); });
+  // (document).body.addEventListener('touchend', function(e){ e.preventDefault(); });
   // If the document is clicked somewhere
   $(document).bind("mousedown", function (e) {
 
