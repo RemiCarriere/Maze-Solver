@@ -22,7 +22,7 @@
   <div class="container-fluid"
        style="padding-right:0; padding-left:0; height: 100%; display: flex; flex-direction: column;">
     <div class="sticky-top" id="mynavbar">
-      <nav class="navbar sticky-top navbar-expand-sm navbar-dark bg-dark">
+      <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
         <!--        <a class="navbar-brand" href="#"></a>-->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
