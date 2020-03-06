@@ -42,10 +42,10 @@
                 Size
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="sizeOptions">
-                <b-dropdown-item class="nav-link active" @click="setSize(1)">30x50</b-dropdown-item>
-                <b-dropdown-item class="nav-link" @click="setSize(2)">Small</b-dropdown-item>
-                <b-dropdown-item class="nav-link" @click="setSize(3)">Medium</b-dropdown-item>
-                <b-dropdown-item class="nav-link" @click="setSize(4)">Large</b-dropdown-item>
+                <b-dropdown-item class="nav-link active" @click="setSize(1)">Small</b-dropdown-item>
+                <b-dropdown-item class="nav-link" @click="setSize(2)">Medium</b-dropdown-item>
+                <b-dropdown-item class="nav-link" @click="setSize(3)">Large</b-dropdown-item>
+                <b-dropdown-item class="nav-link" @click="setSize(4)">X-Large</b-dropdown-item>
               </div>
             </li>
 
@@ -172,8 +172,6 @@
       cell.ondragstart = "return false;";
       cell.ondrop = "return false;";
     }
-    startPos = [1, 1];
-    targetPos = [10, 10];
     let cell = document.getElementById("cell-" + getNodeIndex(startPos[0], startPos[1]));
     cell.style.backgroundColor = "red";
     cell = document.getElementById("cell-" + getNodeIndex(targetPos[0], targetPos[1]));
@@ -231,15 +229,14 @@
 
   function getGridSize(size) {
     //mynavbar
-    let h = document.getElementById("mynavbar").offsetHeight;
-    let ratio = (screen.height - h + 100) / screen.width;
-    let a = 20;
-    let orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
-    if (orientation === "portrait-secondary" || orientation === "portrait-primary") {
-      ratio = (screen.height) / (screen.width + 350);
-    }
-    rows = Math.round(ratio * a * size);
-    cols = Math.round(a * size / ratio);
+    let height = window.innerHeight -100;
+    let width = window.innerWidth;
+    let factor = 50;
+
+    rows = Math.round((height / factor) * size);
+    cols = Math.round((width / factor) * size);
+    startPos = [0,0];
+    targetPos = [Math.round(rows/2),Math.round(cols/2)]
   }
 
   function createGridGraph() {
