@@ -138,7 +138,7 @@
       <li @click="setEnd()" data-action="second">Set End Tile</li>
     </ul>
     <!--    Grid-->
-    <div id="grid-container"></div>
+    <div class="wrapper" id="grid-container"></div>
     <div id="inner_remaining"></div>
   </div>
 
@@ -692,6 +692,7 @@
   .custom-menu li:hover {
     background-color: #DEF;
   }
+  .wrapper { overscroll-behavior: none }
 
   #inner_remaining {
     height: 100%;
