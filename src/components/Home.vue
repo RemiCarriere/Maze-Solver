@@ -33,7 +33,7 @@
           <ul class="navbar-nav mr-auto">
 
             <li class="nav-item active">
-              <button class="btn btn-outline-success navbar" type="button" @click="solve()">Start</button>
+              <button class="btn btn-outline-success navbar " data-toggle="collapse" data-target="#navbarSupportedContent" type="button" @click="solve()">Start</button>
             </li>
 
             <li class="nav-item dropdown">
