@@ -692,7 +692,7 @@
   .custom-menu li:hover {
     background-color: #DEF;
   }
-  .wrapper { overscroll-behavior: none }
+  .wrapper { overscroll-behavior: contain }
 
   #inner_remaining {
     height: 100%;
