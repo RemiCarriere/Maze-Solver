@@ -19,7 +19,7 @@
   <body>
 
   <!-- Main container-->
-  <div class="container-fluid"
+  <div class="container-fluid diable-refresh"
        style="padding-right:0; padding-left:0; height: 100%; display: flex; flex-direction: column;">
     <div class="sticky-top" id="mynavbar">
       <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
@@ -138,7 +138,7 @@
       <li @click="setEnd()" data-action="second">Set End Tile</li>
     </ul>
     <!--    Grid-->
-    <div class="wrapper" id="grid-container"></div>
+    <div class="diable-refresh" id="grid-container"></div>
     <div id="inner_remaining"></div>
   </div>
 
@@ -692,7 +692,7 @@
   .custom-menu li:hover {
     background-color: #DEF;
   }
-  .wrapper { overscroll-behavior: contain }
+  .diable-refresh { overscroll-behavior: none }
 
   #inner_remaining {
     height: 100%;
