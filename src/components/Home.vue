@@ -22,7 +22,7 @@
   <div class="container-fluid"
        style="padding-right:0; padding-left:0; height: 100%; display: flex; flex-direction: column;">
     <div class="sticky-top" id="mynavbar">
-      <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+      <nav class="navbar sticky-top navbar-expand-sm navbar-dark bg-dark">
         <!--        <a class="navbar-brand" href="#"></a>-->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,10 +42,10 @@
                 Size
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="sizeOptions">
-                <b-dropdown-item class="nav-link active" @click="setSize(1)">Small</b-dropdown-item>
-                <b-dropdown-item class="nav-link" @click="setSize(2)">Medium</b-dropdown-item>
-                <b-dropdown-item class="nav-link" @click="setSize(3)">Large</b-dropdown-item>
-                <b-dropdown-item class="nav-link" @click="setSize(4)">X-Large</b-dropdown-item>
+                <b-dropdown-item class="nav-link active"  data-toggle="collapse" data-target="#navbarSupportedContent" @click="setSize(1)">Small</b-dropdown-item>
+                <b-dropdown-item class="nav-link" data-toggle="collapse" data-target="#navbarSupportedContent" @click="setSize(2)">Medium</b-dropdown-item>
+                <b-dropdown-item class="nav-link" data-toggle="collapse" data-target="#navbarSupportedContent" @click="setSize(3)">Large</b-dropdown-item>
+                <b-dropdown-item class="nav-link" data-toggle="collapse" data-target="#navbarSupportedContent" @click="setSize(4)">X-Large</b-dropdown-item>
               </div>
             </li>
 
@@ -55,8 +55,8 @@
                 Alogorithm
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <b-dropdown-item class="nav-link active">Breadthfirst</b-dropdown-item>
-                <b-dropdown-item class="nav-link disabled">Depthfirst</b-dropdown-item>
+                <b-dropdown-item class="nav-link active" data-toggle="collapse" data-target="#navbarSupportedContent">Breadthfirst</b-dropdown-item>
+                <b-dropdown-item class="nav-link disabled" data-toggle="collapse" data-target="#navbarSupportedContent">Depthfirst</b-dropdown-item>
               </div>
             </li>
 
@@ -66,8 +66,8 @@
                 Reset Grid
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <b-dropdown-item @click="clearGrid(false)">Reset (keep walls)</b-dropdown-item>
-                <b-dropdown-item @click="clearGrid(true)">Reset (clear walls)</b-dropdown-item>
+                <b-dropdown-item lass="nav-link" data-toggle="collapse" data-target="#navbarSupportedContent" @click="clearGrid(false)">Reset (keep walls)</b-dropdown-item>
+                <b-dropdown-item lass="nav-link" data-toggle="collapse" data-target="#navbarSupportedContent" @click="clearGrid(true)">Reset (clear walls)</b-dropdown-item>
               </div>
             </li>
 
@@ -201,8 +201,12 @@
         cell.offsetHeight; /* trigger reflow */
         cell.style.animation = null;
       }
-      cell.style.backgroundColor = "black";
+      drawWallStyle(cell);
     }
+  }
+
+  function drawWallStyle(wall) {
+    wall.style.backgroundColor = "black";
   }
 
   function sleep(ms) {
@@ -229,14 +233,14 @@
 
   function getGridSize(size) {
     //mynavbar
-    let height = window.innerHeight -150;
+    let height = window.innerHeight - 150;
     let width = window.innerWidth;
     let factor = 50;
 
     rows = Math.round((height / factor) * size);
     cols = Math.round((width / factor) * size);
-    startPos = [0,0];
-    targetPos = [Math.round(rows/2),Math.round(cols/2)]
+    startPos = [0, 0];
+    targetPos = [Math.round(rows / 2), Math.round(cols / 2)]
   }
 
   function createGridGraph() {
@@ -326,7 +330,7 @@
       } else if (e.type === "mouseup" || e.type === "dragleave") {
         isDrawing = false;
       }
-    } else {
+    } else if (!isRunning) {
       if (e.type === "touchstart") {
         isDrawing = true;
         drawWall(e.target.id);
@@ -561,6 +565,14 @@
     margin-bottom: 0 !important;
   }
 
+  .navbar-header {
+    text-align: left;
+  }
+
+  .navbar-toggle {
+    float: none;
+    margin-right: 0;
+  }
 
   @keyframes mymove {
     from {
@@ -692,6 +704,7 @@
   .custom-menu li:hover {
     background-color: #DEF;
   }
+
   body,
   .diable-refresh {
     /* Break the flow */
@@ -709,6 +722,16 @@
     overflow-y: hidden;
   }
 
+  .dropdown-item{
+    color: rgba(255,255,255,0.75) !important;
+  }
+  .dropdown-item:hover{
+    color: black !important;
+  }
+  .dropdown-menu{
+    background-color: #343a40 !important;
+  }
+
   body {
     /* Sending body at the bottom of the stack */
     z-index: 1;
@@ -718,6 +741,7 @@
     /* Making the wrapper stack above the body */
     z-index: 2;
   }
+
   /*.diable-refresh { overscroll-behavior: none }*/
 
   #inner_remaining {
