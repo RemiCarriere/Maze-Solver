@@ -21,7 +21,7 @@
   <!-- Main container-->
   <div class="container-fluid"
        style="padding-right:0; padding-left:0; height: 100%; display: flex; flex-direction: column;">
-    <div class="sticky-top">
+    <div class="sticky-top" id="mynavbar">
       <nav class="navbar sticky-top navbar-expand-sm navbar-dark bg-dark">
         <!--        <a class="navbar-brand" href="#"></a>-->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -43,9 +43,9 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarDropdown" id="sizeOptions">
                 <b-dropdown-item class="nav-link active" @click="setSize(1)">30x50</b-dropdown-item>
-                <b-dropdown-item class="nav-link" @click="setSize(2)">40x66</b-dropdown-item>
-                <b-dropdown-item class="nav-link" @click="setSize(3)">50x83</b-dropdown-item>
-                <b-dropdown-item class="nav-link" @click="setSize(4)">60x100</b-dropdown-item>
+                <b-dropdown-item class="nav-link" @click="setSize(2)">Small</b-dropdown-item>
+                <b-dropdown-item class="nav-link" @click="setSize(3)">Medium</b-dropdown-item>
+                <b-dropdown-item class="nav-link" @click="setSize(4)">Large</b-dropdown-item>
               </div>
             </li>
 
@@ -155,13 +155,13 @@
   let isDrawing = false;
   let rows = 30;
   let cols = 50;
-  let startPos = [15, 40];
-  let targetPos = [20, 20];
+  let startPos = [0, 0];
+  let targetPos = [10, 10];
   let rightClickID = "";
   let isRunning = false;
 
   //Prepare Components
-  function createGrid(rows, cols) {
+  function createGrid() {
     const container = document.getElementById("grid-container");
     container.style.setProperty('--grid-rows', rows);
     container.style.setProperty('--grid-cols', cols);
@@ -172,8 +172,8 @@
       cell.ondragstart = "return false;";
       cell.ondrop = "return false;";
     }
-    startPos = [15, 40];
-    targetPos = [20, 20];
+    startPos = [1, 1];
+    targetPos = [10, 10];
     let cell = document.getElementById("cell-" + getNodeIndex(startPos[0], startPos[1]));
     cell.style.backgroundColor = "red";
     cell = document.getElementById("cell-" + getNodeIndex(targetPos[0], targetPos[1]));
@@ -227,6 +227,19 @@
     } else {
       return position;
     }
+  }
+
+  function getGridSize(size) {
+    //mynavbar
+    let h = document.getElementById("mynavbar").offsetHeight;
+    let ratio = (screen.height - h + 100) / screen.width;
+    let a = 20;
+    let orientation = (screen.orientation || {}).type || screen.mozOrientation || screen.msOrientation;
+    if (orientation === "portrait-secondary" || orientation === "portrait-primary") {
+      ratio = (screen.height) / (screen.width + 350);
+    }
+    rows = Math.round(ratio * a * size);
+    cols = Math.round(a * size / ratio);
   }
 
   function createGridGraph() {
@@ -301,6 +314,7 @@
 
   //Wait fo document to create initial grid
   $(document).ready(function () {
+    getGridSize(1);
     createGrid(rows, cols);
   });
 
@@ -467,27 +481,8 @@
         selected.className += " active";
         const container = document.getElementById("grid-container");
         container.innerHTML = '';
-        switch (size) {
-          case 1:
-            rows = 30;
-            cols = 50;
-            break;
-          case 2:
-            rows = 40;
-            cols = 66;
-            break;
-          case 3:
-            rows = 50;
-            cols = 83;
-            break;
-          case 4:
-            rows = 60;
-            cols = 100;
-            break;
-          default:
-            break;
-        }
-        createGrid(rows, cols);
+        getGridSize(size);
+        createGrid();
 
       }
     }
@@ -591,6 +586,13 @@
   footer {
     background-color: black;
     height: 100%;
+  }
+
+  .lock-screen {
+    height: 100%;
+    overflow: hidden;
+    width: 100%;
+    position: fixed;
   }
 
   /*transition, modal, modal-mask, modal wrapper, modal container, (header, bodt, footer)*/
