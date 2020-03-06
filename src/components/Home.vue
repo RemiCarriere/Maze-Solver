@@ -19,7 +19,7 @@
   <body>
 
   <!-- Main container-->
-  <div class="container-fluid diable-refresh"
+  <div class="container-fluid"
        style="padding-right:0; padding-left:0; height: 100%; display: flex; flex-direction: column;">
     <div class="sticky-top" id="mynavbar">
       <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
@@ -229,7 +229,7 @@
 
   function getGridSize(size) {
     //mynavbar
-    let height = window.innerHeight -100;
+    let height = window.innerHeight -150;
     let width = window.innerWidth;
     let factor = 50;
 
@@ -692,7 +692,33 @@
   .custom-menu li:hover {
     background-color: #DEF;
   }
-  .diable-refresh { overscroll-behavior: none }
+  body,
+  .diable-refresh {
+    /* Break the flow */
+    /*position: absolute;*/
+    top: 0px;
+
+    /* Give them all the available space */
+    width: 100%;
+    height: 100%;
+
+    /* Remove the margins if any */
+    margin: 0;
+
+    /* Allow them to scroll down the document */
+    overflow-y: hidden;
+  }
+
+  body {
+    /* Sending body at the bottom of the stack */
+    z-index: 1;
+  }
+
+  .diable-refresh {
+    /* Making the wrapper stack above the body */
+    z-index: 2;
+  }
+  /*.diable-refresh { overscroll-behavior: none }*/
 
   #inner_remaining {
     height: 100%;
