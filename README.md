@@ -3,6 +3,9 @@
 A visualization tool for graph traversal built using Vue.js
 <br>
 Visit the deployed version [here](https://maze-solver6000.herokuapp.com/)
+<br>
+<br>
+![mazesolver](https://github.com/RemiCarriere/Maze-Solver/blob/master/readme_assets/mazesolver.gif)
 
 ## Build Setup
 
